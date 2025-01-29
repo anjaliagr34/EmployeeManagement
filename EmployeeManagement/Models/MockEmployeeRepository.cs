@@ -42,14 +42,16 @@ namespace EmployeeManagement.Models
 
         public Employee Update(Employee employeeUpdate)
         {
+            //Add by Anjali Agrawal
             var emp = GetEmployee(employeeUpdate.Id);
-            if (employeeUpdate != null)
+            if (emp!= null)
             {
 
                 emp.Name = employeeUpdate.Name;
                 emp.Email = employeeUpdate.Email;
                 emp.Department = employeeUpdate.Department;          
             }
+           
 
             return emp;
         }

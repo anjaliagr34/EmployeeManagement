@@ -1,17 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using System;
+using System.Xml.Serialization;
+//Add by Anjal Agrawal
 namespace EmployeeManagement.Models
 {
+    [XmlRoot("Employee")]
     public class Employee
     {
-        public int Id { get; set; }       
+        [XmlElement("Id")]
+        public int Id { get; set; }
+
+        [XmlElement("Name")]
         public string Name { get; set; }
-        [Required]        
-        public string Email { get; set; }       
-        public string Password { get; set; }       
-        public string ConfirmPassword { get; set; }
-        [Required]
-        public Dept? Department { get; set; } 
-       
+
+        [XmlElement("Email")]
+        public string Email { get; set; }
+
+        [XmlElement("Department")]
+        public Dept? Department { get; set; }
     }
 }

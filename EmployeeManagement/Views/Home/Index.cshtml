@@ -1,7 +1,17 @@
 ﻿@model IEnumerable<Employee>
+
 <div class="text-center">
     <h1>Home</h1>
 
+    <!-- Add Employee Button -->
+    <div class="mb-3">
+        @*Add by Anjali Agrawal*@
+        <a asp-controller="Home" asp-action="Edit" class="btn btn-success">
+            Add Employee <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </a>
+    </div>
+
+    <!-- Employee List Table -->
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr>
@@ -9,7 +19,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Department</th>
                 <th scope="col">Email</th>
-                <th scope="col"></th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -21,24 +31,27 @@
                     <td>@employee.Department</td>
                     <td>@employee.Email</td>
                     <td>
-                        <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn-sm btn-primary">View <i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <!-- View Employee Button -->
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn-sm btn-primary">
+                            View <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
 
-                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn-sm btn-primary">Edit <i class="fa fa-edit" aria-hidden="true"></i></a>
+                        <!-- Edit Employee Button -->
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn-sm btn-warning">
+                            Edit <i class="fa fa-edit" aria-hidden="true"></i>
+                        </a>
 
-                        <a asp-controller="Home" asp-action="Remove" asp-route-id="@employee.Id" class="btn-sm btn-danger">Remove <i class="fa fa-remove" aria-hidden="true"></i></a>
+                        <!-- Remove Employee Button -->
+                        <a asp-controller="Home" asp-action="Remove" asp-route-id="@employee.Id" class="btn-sm btn-danger">
+                            Remove <i class="fa fa-remove" aria-hidden="true"></i>
+                        </a>
                     </td>
                 </tr>
             }
-
         </tbody>
     </table>
-
-    
-
 </div>
+
 @section Scripts {
-
     <script src="~/js/Home.js"></script>
-   
-
 }
