@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<Employee>
 
-<div class="text-center">
-    <h1>Home</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Employee Management</h1>
 
     <!-- Add Employee Button -->
-    <div class="mb-3">
+    <div class="mb-3 text-center">
         @*Add by Anjali Agrawal*@
-        <a asp-controller="Home" asp-action="Edit" class="btn btn-success">
+        <a asp-controller="Home" asp-action="Edit" class="btn btn-success btn-lg">
             Add Employee <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </a>
     </div>
 
     <!-- Employee List Table -->
-    <table class="table table-striped">
+    <table class="table table-bordered table-hover table-striped">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
@@ -32,18 +32,18 @@
                     <td>@employee.Email</td>
                     <td>
                         <!-- View Employee Button -->
-                        <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn-sm btn-primary">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-primary btn-sm">
                             View <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
 
                         <!-- Edit Employee Button -->
-                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn-sm btn-warning">
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning btn-sm">
                             Edit <i class="fa fa-edit" aria-hidden="true"></i>
                         </a>
 
                         <!-- Remove Employee Button -->
-                        <a asp-controller="Home" asp-action="Remove" asp-route-id="@employee.Id" class="btn-sm btn-danger">
-                            Remove <i class="fa fa-remove" aria-hidden="true"></i>
+                        <a asp-controller="Home" asp-action="Remove" asp-route-id="@employee.Id" class="btn btn-danger btn-sm">
+                            Remove <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
                     </td>
                 </tr>
@@ -55,3 +55,46 @@
 @section Scripts {
     <script src="~/js/Home.js"></script>
 }
+
+<style>
+    /* Custom Styles */
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.25rem;
+        font-size: 1.125rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 2rem;
+    }
+
+    .btn i {
+        margin-left: 5px;
+    }
+
+    .btn-primary:hover, .btn-warning:hover, .btn-danger:hover {
+        opacity: 0.8;
+    }
+
+    .table th {
+        background-color: #343a40;
+        color: #fff;
+    }
+</style>
