@@ -63,7 +63,7 @@ namespace EmployeeManagement.Controllers
             // Serialize the employee list into XML
             var xmlSerializer = new XmlSerializer(typeof(List<Employee>));
 
-            using (var stringWriter = new StringWriter())
+            using var stringWriter = new StringWriter();
             {
                 // Serialize the list of employees to XML format
                 xmlSerializer.Serialize(stringWriter, employees);
