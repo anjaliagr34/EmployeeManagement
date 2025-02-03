@@ -3,6 +3,20 @@
 
 <div class="text-center employee-card-container">
 
+    @* Display Success or Error Message using ViewBag *@
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Message
+        </div>
+    }
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
     <div class="card employee-card">
         <img class="card-img-top" src="~/images/BankImage.svg" alt="Card image cap" asp-append-version="true" />
         <div class="card-body">
@@ -13,13 +27,45 @@
 
             <div class="btn-group">
                 <a asp-controller="Home" asp-action="Index" class="btn btn-back">Back</a>
-                <a asp-controller="Home" asp-action="Edit" class="btn btn-edit">Edit</a>
-                <a asp-controller="Home" asp-action="Delete" class="btn btn-delete">Delete</a>
+                <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-edit">Edit</a>
+
+                <!-- Delete Button with AJAX -->
+                <button type="button" class="btn btn-delete" data-id="@Model.Id" id="deleteBtn">Delete</button>
             </div>
         </div>
     </div>
 
 </div>
+
+@section Scripts {
+    <script src="~/js/Home.js"></script>
+
+    <script>
+        // AJAX delete button click handler
+        $(document).ready(function () {
+            $('#deleteBtn').click(function () {
+                const employeeId = $(this).data('id');
+                if (confirm('Are you sure you want to delete this employee?')) {
+                    $.ajax({
+                        url: '/Home/Remove/' + employeeId,  // Delete request URL
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                alert('Employee deleted successfully!');
+                                window.location.href = '/Home/Index';  // Redirect to employee list
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the employee.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
 
 <style>
     /* General styling */

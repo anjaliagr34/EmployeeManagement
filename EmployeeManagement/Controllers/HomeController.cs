@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -7,6 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
+//Add by Anjali Agrawal
+
 namespace EmployeeManagement.Controllers
 {
     public class HomeController : Controller
@@ -22,9 +26,16 @@ namespace EmployeeManagement.Controllers
         public async Task<IActionResult> Index()
         {
             var employees = await _dbContext.Employees.ToListAsync();
+
+            // Passing data to the view using ViewData
+            ViewData["EmployeeCount"] = employees.Count;
+
+            // You can also use ViewBag to pass dynamic data
+            ViewBag.Message = "Welcome to the Employee Management System!";
+
             return View(employees);
         }
-        // Add by Anjali Agrawal
+
         // Details: Display employee details
         public async Task<IActionResult> Details(int id)
         {
@@ -44,7 +55,7 @@ namespace EmployeeManagement.Controllers
 
             return View(employeeViewModel);
         }
-        // Add by Anjali Agrawal
+
         // JSON Response: Return employee data as JSON
         [HttpGet]
         [Route("api/employee/json")]
@@ -53,6 +64,7 @@ namespace EmployeeManagement.Controllers
             var employees = await _dbContext.Employees.ToListAsync();
             return Json(employees);
         }
+
         // SOAP Response: Return employee data as XML SOAP
         [HttpGet]
         [Route("api/employee/soap")]
@@ -72,7 +84,6 @@ namespace EmployeeManagement.Controllers
                 return Content(stringWriter.ToString(), "text/xml");
             }
         }
-        // Add by Anjali Agrawal
 
         // Edit (GET): Display the form to edit an employee
         [HttpGet]
@@ -91,7 +102,7 @@ namespace EmployeeManagement.Controllers
 
             return View(employee);
         }
-        // Add by Anjali Agrawal
+
         // Edit (POST): Save employee (Add/Update)
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -137,6 +148,20 @@ namespace EmployeeManagement.Controllers
             _dbContext.Employees.Remove(employee);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // HTTP Context Example: Set a session value
+        public IActionResult SetSession()
+        {
+            HttpContext.Session.SetString("EmployeeSession", "Session Value Here");
+            return RedirectToAction("Index");
+        }
+
+        // Display Employee List using AJAX
+        public async Task<IActionResult> GetEmployeeListAjax()
+        {
+            var employees = await _dbContext.Employees.ToListAsync();
+            return Json(employees);
         }
     }
 }

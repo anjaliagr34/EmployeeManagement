@@ -3,16 +3,20 @@
 <div class="container mt-4">
     <h1 class="text-center mb-4">Employee Management</h1>
 
-    <!-- Add Employee Button -->
+    <div class="text-center">
+        <!-- Display the employee count using ViewData -->
+        <h3>Total Employees: @ViewData["EmployeeCount"]</h3>
+        <!-- Display a message using ViewBag -->
+        <p>@ViewBag.Message</p>
+    </div>
+
     <div class="mb-3 text-center">
-        @*Add by Anjali Agrawal*@
         <a asp-controller="Home" asp-action="Edit" class="btn btn-success btn-lg">
             Add Employee <i class="fa fa-plus-circle" aria-hidden="true"></i>
         </a>
     </div>
 
-    <!-- Employee List Table -->
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped" id="employeeTable">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
@@ -31,17 +35,12 @@
                     <td>@employee.Department</td>
                     <td>@employee.Email</td>
                     <td>
-                        <!-- View Employee Button -->
                         <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-primary btn-sm">
                             View <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
-
-                        <!-- Edit Employee Button -->
                         <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning btn-sm">
                             Edit <i class="fa fa-edit" aria-hidden="true"></i>
                         </a>
-
-                        <!-- Remove Employee Button -->
                         <a asp-controller="Home" asp-action="Remove" asp-route-id="@employee.Id" class="btn btn-danger btn-sm">
                             Remove <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
@@ -54,6 +53,35 @@
 
 @section Scripts {
     <script src="~/js/Home.js"></script>
+
+    <script>
+        // Fetch employee data using AJAX on page load
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetEmployeeListAjax")',
+                type: 'GET',
+                success: function (data) {
+                    let rows = '';
+                    data.forEach(function (employee) {
+                        rows += `
+                            <tr>
+                                <td>${employee.id}</td>
+                                <td>${employee.name}</td>
+                                <td>${dept.department}</td>
+                                <td>${employee.email}</td>
+                                <td>
+                                    <a href="/Home/Details/${employee.id}" class="btn btn-primary btn-sm">View</a>
+                                    <a href="/Home/Edit/${employee.id}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/Home/Remove/${employee.id}" class="btn btn-danger btn-sm">Remove</a>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    $('#employeeTable tbody').html(rows);
+                }
+            });
+        });
+    </script>
 }
 
 <style>
